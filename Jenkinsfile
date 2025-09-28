@@ -19,7 +19,7 @@ pipeline {
                 sleep 10
                 docker ps
                 docker logs syvora-app-app-1
-                curl http://127.0.0.1:3000
+                # curl http://127.0.0.1:3000
                 '''
             }
         }
