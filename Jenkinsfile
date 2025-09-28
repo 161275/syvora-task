@@ -34,16 +34,16 @@ pipeline {
        
                 }
             }
-        // stage('Deploy to Kubernetes') {
-        //     steps {
-        //         sshagent(credentials: ['ec2-ssh-key']) {
-        //             sh '''
-        //                 ssh -o StrictHostKeyChecking=no ubuntu@54.196.208.124 \
-        //                 "kubectl get pods -n kube-system"
-        //             '''
-        //         }
-        //     }
-        // }
+        stage('Deploy to Kubernetes') {
+            steps {
+                sshagent(credentials: ['ec2-ssh-key']) {
+                    sh '''
+                        ssh -o StrictHostKeyChecking=no ubuntu@54.196.208.124 \
+                        "kubectl get pods -n kube-system"
+                    '''
+                }
+            }
+        }
         
     }
 }
