@@ -3,7 +3,7 @@ version: "3.8"
 services:
   app:
     # build: .
-    image: nishdoc1999/syvora-app:34
+    image: nishdoc1999/syvora-app:${IMAGE_TAG}
     ports:
       - "3000:3000"
     depends_on:

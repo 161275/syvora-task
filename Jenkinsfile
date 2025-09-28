@@ -27,11 +27,11 @@ pipeline {
             DOCKER_HUB_PASSWORD = credentials('dockerhub-credentials')
     }
     stages {
-        stage('Clone Repo') {
-            steps {
-                git branch: 'main', url: 'https://github.com/161275/syvora-task.git'
-            }
-        }
+        // stage('Clone Repo') {
+        //     steps {
+        //         git branch: 'main', url: 'https://github.com/161275/syvora-task.git'
+        //     }
+        // }
 
         stage('Build Docker Image') {
             steps {
@@ -39,7 +39,6 @@ pipeline {
                                                  usernameVariable: 'DOCKER_HUB_USERNAME',
                                                  passwordVariable: 'DOCKER_HUB_PASSWORD')]){
                     sh '''
-                        # img = docker.build("${DOCKER_HUB_USERNAME}/syvora-app:${BUILD_NUMBER}")
                         docker build -t ${DOCKER_HUB_USERNAME}/syvora-app:${BUILD_NUMBER} .
                         echo \"${DOCKER_HUB_PASSWORD}\" | docker login -u \"${DOCKER_HUB_USERNAME}\" --password-stdin
                         docker push ${DOCKER_HUB_USERNAME}/syvora-app:${BUILD_NUMBER}
@@ -52,10 +51,9 @@ pipeline {
             steps {
                 sh '''
                 docker compose version
-                docker compose up -d --build
+                IMAGE_TAG=${BUILD_NUMBER} docker compose up -d --build
                 docker ps
                 docker images
-                curl http://127.0.0.1:3000
                 '''
             }
         }
