@@ -39,8 +39,12 @@ pipeline {
 
         stage('Run with Docker Compose') {
             steps {
-                sh 'docker compose version'
-                sh 'docker compose up -d --build'
+                sh '''
+                docker compose version
+                docker compose up -d --build
+                docker ps
+                docker images
+                '''
             }
         }
     }
