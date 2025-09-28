@@ -1,7 +1,6 @@
 pipeline{
     agent any 
     stages {
-        stage ('instal docker ')
         stage ('build docker image'){
             agent {
                 docker {
