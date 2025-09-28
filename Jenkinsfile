@@ -39,7 +39,7 @@ pipeline {
             steps {
                 sshagent(credentials: ['ec2-ssh-key']) {
                     sh '''
-                        ssh -o StrictHostKeyChecking=no ubuntu@54.196.208.124 \
+                        ssh -o StrictHostKeyChecking=no ubuntu@ec2-54-196-208-124.compute-1.amazonaws.com \
                         "kubectl get pods -n kube-system"
                     '''
                 }
