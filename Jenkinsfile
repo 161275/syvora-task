@@ -6,7 +6,19 @@ pipeline {
     //         // DOCKER_HUB_PASSWORD = credentials('dockerhub-credentials')
     //         DOCKER = credentials('dockerhub-credentials')
     // }
+
     stages {
+        stage('Run with Docker Compose') {
+            steps {
+                sh '''
+                docker compose version
+                IMAGE_TAG=${BUILD_NUMBER} docker compose up -d --build
+                docker ps
+                docker images
+                curl http://0.0.0.0:3000
+                '''
+            }
+        }
         stage('Build Docker Image') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]){
@@ -19,15 +31,16 @@ pipeline {
        
                 }
             }
-        stage('Run with Docker Compose') {
-            steps {
-                sh '''
-                docker compose version
-                IMAGE_TAG=${BUILD_NUMBER} docker compose up -d --build
-                docker ps
-                docker images
-                '''
-            }
-        }
+        // stage('Deploy to Kubernetes') {
+        //     steps {
+        //         sshagent(credentials: ['ec2-ssh-key']) {
+        //             sh '''
+        //                 ssh -o StrictHostKeyChecking=no ubuntu@<EC2_PUBLIC_IP> \
+        //                 "kubectl get pods -n kube-system"
+        //             '''
+        //         }
+        //     }
+        // }
+        
     }
 }
