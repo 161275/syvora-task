@@ -29,13 +29,13 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    docker.build("syvora-app:latest")
-                }
-            }
-        }
+        // stage('Build Docker Image') {
+        //     steps {
+        //         script {
+        //             docker.build("syvora-app:latest")
+        //         }
+        //     }
+        // }
 
         stage('Run with Docker Compose') {
             steps {
