@@ -44,6 +44,7 @@ pipeline {
                 docker compose up -d --build
                 docker ps
                 docker images
+                curl http://localhost:3000/users
                 '''
             }
         }
