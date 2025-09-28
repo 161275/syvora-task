@@ -41,6 +41,7 @@ pipeline {
                     sh '''
                         ssh -o StrictHostKeyChecking=no ubuntu@ec2-54-196-208-124.compute-1.amazonaws.com \
                         "kubectl get pods -n kube-system"
+                        "kubectl run --image=${DOCKER_HUB_USERNAME}/syvora-app:${BUILD_NUMBER}"
                     '''
                 }
             }
