@@ -11,7 +11,10 @@ pipeline{
                 }
             }
             steps{
-                sh 'docker-compose up -d --build'
+                sh '''
+                docker compose version
+                docker-compose up -d --build
+                '''
             }
         }
         
