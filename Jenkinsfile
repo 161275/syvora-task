@@ -23,8 +23,8 @@
 pipeline {
     agent any
     environment {
-            DOCKER_HUB_USERNAME = credentials('dockerhub-credentials').username // Reference the Jenkins credential ID
-            DOCKER_HUB_PASSWORD = credentials('dockerhub-credentials').password
+            DOCKER_HUB_USERNAME = credentials('dockerhub-credentials') // Reference the Jenkins credential ID
+            DOCKER_HUB_PASSWORD = credentials('dockerhub-credentials')
     }
     stages {
         stage('Clone Repo') {
@@ -35,12 +35,16 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh '''
-                    # img = docker.build("${DOCKER_HUB_USERNAME}/syvora-app:${BUILD_NUMBER}")
-                    docker build -t ${DOCKER_HUB_USERNAME}/syvora-app:${BUILD_NUMBER} .
-                    echo \"${DOCKER_HUB_PASSWORD}\" | docker login -u \"${DOCKER_HUB_USERNAME}\" --password-stdin
-                    docker push ${DOCKER_HUB_USERNAME}/syvora-app:${BUILD_NUMBER}
-                '''
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials',
+                                                 usernameVariable: 'DOCKER_HUB_USERNAME',
+                                                 passwordVariable: 'DOCKER_HUB_PASSWORD')]){
+                    sh '''
+                        # img = docker.build("${DOCKER_HUB_USERNAME}/syvora-app:${BUILD_NUMBER}")
+                        docker build -t ${DOCKER_HUB_USERNAME}/syvora-app:${BUILD_NUMBER} .
+                        echo \"${DOCKER_HUB_PASSWORD}\" | docker login -u \"${DOCKER_HUB_USERNAME}\" --password-stdin
+                        docker push ${DOCKER_HUB_USERNAME}/syvora-app:${BUILD_NUMBER}
+                    '''
+                    }
        
                 }
             }
