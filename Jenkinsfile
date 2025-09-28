@@ -15,7 +15,7 @@ pipeline {
                 IMAGE_TAG=${BUILD_NUMBER} docker compose up -d --build
                 docker ps
                 docker images
-                docker logs syvora-app-app
+                docker logs syvora-app-app-1
                 curl http://0.0.0.0:3000
                 '''
             }
@@ -36,7 +36,7 @@ pipeline {
         //     steps {
         //         sshagent(credentials: ['ec2-ssh-key']) {
         //             sh '''
-        //                 ssh -o StrictHostKeyChecking=no ubuntu@<EC2_PUBLIC_IP> \
+        //                 ssh -o StrictHostKeyChecking=no ubuntu@54.196.208.124 \
         //                 "kubectl get pods -n kube-system"
         //             '''
         //         }
