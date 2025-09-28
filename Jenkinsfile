@@ -15,6 +15,7 @@ pipeline {
                 IMAGE_TAG=${BUILD_NUMBER} docker compose up -d --build
                 docker ps
                 docker images
+                docker logs syvora-app-app
                 curl http://0.0.0.0:3000
                 '''
             }
