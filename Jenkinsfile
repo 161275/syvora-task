@@ -44,7 +44,7 @@ pipeline {
                 docker compose up -d --build
                 docker ps
                 docker images
-                curl http://127.0.0.1:3000/users
+                curl http://127.0.0.1:3000
                 '''
             }
         }
