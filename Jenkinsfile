@@ -39,7 +39,7 @@ pipeline {
 
         stage('Run with Docker Compose') {
             steps {
-                sh 'docker-compose version'
+                sh 'docker compose version'
                 sh 'docker-compose down || true'
                 sh 'docker-compose up -d --build'
             }
