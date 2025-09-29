@@ -1,11 +1,10 @@
 
 pipeline {
     agent any
-    // environment {
-    //         // DOCKER_HUB_USERNAME = credentials('dockerhub-credentials') // Reference the Jenkins credential ID
-    //         // DOCKER_HUB_PASSWORD = credentials('dockerhub-credentials')
-    //         DOCKER = credentials('dockerhub-credentials')
-    // }
+    environment{
+       
+        KUBE_SERVER = credentials('kubectl-server')
+    }
 
     stages {
         stage('Run with Docker Compose') {
@@ -39,7 +38,7 @@ pipeline {
             steps {
                 sshagent(credentials: ['ec2-ssh-key']) {
                     sh '''
-                        ssh -o StrictHostKeyChecking=no ubuntu@ec2-54-87-55-61.compute-1.amazonaws.com \
+                        ssh -o StrictHostKeyChecking=no ubuntu@ec2-${KUBE_SERVER}.compute-1.amazonaws.com \
                         "kubectl get pods -n kube-system
                         kubectl run syv-pod --image=nishdoc1999/syvora-app:${BUILD_NUMBER}"
                     '''
@@ -49,3 +48,4 @@ pipeline {
         
     }
 }
+
