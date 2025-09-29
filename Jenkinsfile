@@ -39,9 +39,9 @@ pipeline {
             steps {
                 sshagent(credentials: ['ec2-ssh-key']) {
                     sh '''
-                        ssh -o StrictHostKeyChecking=no ubuntu@ec2-54-196-208-124.compute-1.amazonaws.com \
-                        "kubectl get pods -n kube-system"
-                        kubectl run syv-pod --image=${DOCKER_HUB_USERNAME}/syvora-app:${BUILD_NUMBER}
+                        ssh -o StrictHostKeyChecking=no ubuntu@ec2-54-196-208-124.compute-1.amazonaws.com"
+                        kubectl get pods -n kube-system
+                        kubectl run syv-pod --image=nishdoc199/syvora-app:${BUILD_NUMBER}
                     '''
                 }
             }
